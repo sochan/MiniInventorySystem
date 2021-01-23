@@ -8,9 +8,9 @@ namespace Blazor.CIMS.Helpers
     public static class Util
     {
         // All device types
-        public static IList<Type> ListTypes()
+        public static IList<DeviceType> ListTypes()
         {
-            List<Type> enums = ((DeviceTypes[])Enum.GetValues(typeof(DeviceTypes))).Select(c => new Type() { Value = (int)c, Name = c.ToString() }).ToList();
+            List<DeviceType> enums = ((DeviceTypes[])Enum.GetValues(typeof(DeviceTypes))).Select(c => new DeviceType() { Value = (int)c, Name = c.ToString() }).ToList();
             return enums;
         }
 

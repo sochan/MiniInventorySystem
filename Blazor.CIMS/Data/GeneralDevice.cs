@@ -13,5 +13,10 @@ namespace Blazor.CIMS.Data
         public int Types { get; set; }
         public int Quantity { get; set; }
         public Decimal Price { get; set; }
+
+        public string DisplayTypes()
+        {
+            return ((DeviceTypes)Types).ToString();
+        }
     }
 }

@@ -3,10 +3,11 @@
 @inject IJSRuntime JsRuntime
 
 
-<h2>Add Business</h2>
+<h2>Add Computer</h2>
 <hr />
 
 <EditForm Model="@obj" OnValidSubmit="Create">
+    
     <div class="row">
         <div class="col-md-8">
             <div class="form-group">
@@ -14,21 +15,57 @@
                 <InputText id="Brand" class="form-control" @bind-Value="@obj.Brand" />
                 <ValidationMessage For="@(() => obj.Brand)" />
             </div>
+
             <div class="form-group">
-                <label for="Name" class="control-label">Name</label>
-                <InputText id="Name" class="form-control" @bind-Value="@obj.Name" />
-                <ValidationMessage For="@(() => obj.Name)" />
+                <label for="Ram" class="control-label">Memory</label>
+                <InputNumber id="Ram" class="form-control" @bind-Value="@obj.Memory" />
+                <ValidationMessage For="@(() => obj.Ram)" />
+            </div>
+
+            <div class="form-group">
+                <label for="Ram" class="control-label">RAM</label>
+                <InputNumber id="Ram" class="form-control" @bind-Value="@obj.Ram" />
+                <ValidationMessage For="@(() => obj.Ram)" />
+            </div>
+
+            <div class="form-group">
+                <label for="UsbPort" class="control-label">Usb ports</label>
+                <InputNumber id="UsbPort" class="form-control" @bind-Value="@obj.UsbPort" />
+                <ValidationMessage For="@(() => obj.UsbPort)" />
             </div>
             <div class="form-group">
-                <label for="TradingName" class="control-label">Trading Name</label>
-                <InputText id="TradingName" class="form-control" @bind-Value="@obj.TradingName" />
-                <ValidationMessage For="@(() => obj.TradingName)" />
+                <label for="RamSlot" class="control-label">Ram Slots</label>
+                <InputNumber id="RamSlot" class="form-control" @bind-Value="@obj.RamSlot" />
+                <ValidationMessage For="@(() => obj.RamSlot)" />
             </div>
+
             <div class="form-group">
-                <label for="Address" class="control-label">Address</label>
-                <InputText id="Address" class="form-control" @bind-Value="@obj.Address" />
-                <ValidationMessage For="@(() => obj.Address)" />
+                <label for="Quantity" class="control-label">Quanty</label>
+                <InputNumber id="Quantity" class="form-control" @bind-Value="@obj.Quantity" />
+                <ValidationMessage For="@(() => obj.Quantity)" />
             </div>
+
+            <div class="form-group">
+                <label for="Price" class="control-label">Price</label>
+                <InputNumber id="Price" class="form-control" @bind-Value="@obj.Price" />
+                <ValidationMessage For="@(() => obj.Price)" />
+            </div>
+
+            <div class="form-group">
+                <label for="Roles" class="control-label">Device types</label>
+                <CheckBoxList Data="@listTypes"
+                              TextField="@((item) => item.Name)"
+                              ValueField="@((item) => item.Value)"
+                              SelectedValues="@SelectedIds" />
+
+                @if (showError)
+                {
+                <div class="text-danger validation-summary-errors">
+                    @PLEASE_CHOOSE_DEVICE_TYPE
+                </div>
+                }
+            </div>
+
         </div>
 
     </div>
@@ -44,24 +81,36 @@
 
 @code {
     Computer obj = new Computer();
+    IList<DeviceType> listTypes = Util.ListTypes();
+    protected List<string> SelectedIds = new List<string>();
 
-    protected void Create()
+
+    bool showError = false;
+
+    protected async Task Create()
     {
-        
         try
         {
-            MyService.Create(obj);
+            var types = SelectedIds.Sum();
+
+            if (types <= 0)
+            {
+                showError = true;
+                return;
+            }
+            obj.Types = types;
+            obj.IsActive = true;
+            obj.IsDeleted = false;
+            await Task.Run(() => MyService.Create(obj));
+
+            Console.WriteLine(obj.Id);
+
             NavigationManager.NavigateTo("Computers");
         }
         catch (Exception e)
         {
             Console.WriteLine(e.StackTrace);
         }
-    }
-
-    protected override async Task OnInitializedAsync()
-    {
-        
     }
 
     protected void Cancel()

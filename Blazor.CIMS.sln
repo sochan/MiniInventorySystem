@@ -7,6 +7,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Blazor.CIMS", "Blazor.CIMS\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Test.Blazor.CIMS", "Test.Blazor.CIMS\Test.Blazor.CIMS.csproj", "{91F68C57-2947-4386-B37E-11AA7109A779}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Blazored.FluentValidation", "..\..\Downloads\FluentValidation-main\src\Blazored.FluentValidation\Blazored.FluentValidation.csproj", "{B81A3AAB-8F1A-46E0-95C3-A5CE46076A16}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Blazored.FluentValidation", "Blazored.FluentValidation\Blazored.FluentValidation.csproj", "{79A306BA-C76F-427F-8591-3EFFBFBA6EE0}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +25,14 @@ Global
 		{91F68C57-2947-4386-B37E-11AA7109A779}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{91F68C57-2947-4386-B37E-11AA7109A779}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{91F68C57-2947-4386-B37E-11AA7109A779}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B81A3AAB-8F1A-46E0-95C3-A5CE46076A16}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B81A3AAB-8F1A-46E0-95C3-A5CE46076A16}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B81A3AAB-8F1A-46E0-95C3-A5CE46076A16}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B81A3AAB-8F1A-46E0-95C3-A5CE46076A16}.Release|Any CPU.Build.0 = Release|Any CPU
+		{79A306BA-C76F-427F-8591-3EFFBFBA6EE0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{79A306BA-C76F-427F-8591-3EFFBFBA6EE0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{79A306BA-C76F-427F-8591-3EFFBFBA6EE0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{79A306BA-C76F-427F-8591-3EFFBFBA6EE0}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

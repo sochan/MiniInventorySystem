@@ -3,9 +3,9 @@ using FluentValidation;
 
 namespace Blazor.CIMS.ViewModel
 {
-    public class BusinessValidator : AbstractValidator<Computer>
+    public class ComputerValidator : AbstractValidator<Computer>
     {
-        public BusinessValidator()
+        public ComputerValidator()
         {
             RuleFor(emp => emp.Brand).NotEmpty();
         }

@@ -13,7 +13,7 @@ namespace Blazor.CIMS.Helpers
         Game = 0b_0010_0000,  // 32
     }
 
-    public class Type
+    public class DeviceType
     {
         public string Name { get; set; }
         public int Value { get; set; }

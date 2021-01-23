@@ -2,11 +2,11 @@
 @inject IComputerService MyService
 
 
-<NavLink class="nav-link" href="AddBusiness">
+<NavLink class="nav-link" href="AddComputer">
     <span class="oi oi-plus" aria-hidden="true"></span> Add New
 </NavLink>
 
-<h4>Businesses</h4>
+<h4>Computers</h4>
 <div>
     @if (paginatedUsrs == null || !paginatedUsrs.Data.Any())
     {
@@ -21,37 +21,38 @@
         <table class="table table-striped">
             <thead>
                 <tr>
-                    <th>ABN</th>
-                    <th>Name</th>
-                    <th>Trading Name</th>
-                    <th>Address</th>
-                    <th>Users</th>
-                    <th>Employees</th>
+                    <th>Brand</th>
+                    <th>Memory (GB)</th>
+                    <th>RAM</th>
+                    <th>USB ports</th>
+                    <th>RAM slots</th>
+                    <th>Types</th>
+                    <th>Quantity</th>
+                    <th>Price</th>
+                    <th>Action</th>
                 </tr>
             </thead>
             <tbody>
                 @foreach (var obj in paginatedUsrs.Data)
                 {
-                    <tr>
-                        <td>@obj.Abn</td>
-                        <td><a href="BusinessDisplay/@obj.Id"> @obj.Name</a></td>
-                        <td>@obj.TradingName</td>
-                        <td>@obj.Address</td>
-
-                        <td><a href="users/@obj.Id">Users</a></td>
-                        <td><a href="employees/@obj.Id">Employees</a></td>
-                        <td>
-                            <a href="addUser/@obj.Id">Add Employee</a>
-                        </td>
-                        <td>
-                            <a class="btn btn-warning" href="EditBusiness/@obj.Id/Businesses">
-                                Edit
-                            </a>
-                            <a class="btn btn-danger" href="DeleteBusiness/@obj.Id">
-                                Delete
-                            </a>
-                        </td>
-                    </tr>
+                <tr>
+                    <td><a href="ComputerDisplay/@obj.Id"> @obj.Brand</a></td>
+                    <td>@obj.Memory GB</td>
+                    <td>@obj.Ram GB</td>
+                    <td>@obj.DisplayTypes()</td>
+                    <td>@obj.UsbPort</td>
+                    <td>@obj.RamSlot</td>
+                    <td>@obj.Quantity</td>
+                    <td>@obj.Price.CurrencyDisplay()</td>
+                    <td>
+                        <a class="btn btn-warning" href="EditBusiness/@obj.Id/Businesses">
+                            Edit
+                        </a>
+                        <a class="btn btn-danger" href="DeleteBusiness/@obj.Id">
+                            Delete
+                        </a>
+                    </td>
+                </tr>
                 }
             </tbody>
         </table>

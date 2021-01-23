@@ -1,30 +1,51 @@
 ﻿@page "/EditComputer/{CurrentID}/{Referrer}"
+@inject IComputerService MyService
 @inject IJSRuntime JsRuntime
 
-<h2>Update Business</h2>
+<h2>Update Computer</h2>
 <hr />
 <EditForm Model="@obj" OnValidSubmit="Update">
     <div class="row">
         <div class="col-md-8">
             <div class="form-group">
-                <label for="Abn" class="control-label">ABN</label>
-                <InputText id="Abn" class="form-control" @bind-Value="@obj.Abn" />
-                <ValidationMessage For="@(() => obj.Abn)" />
+                <label for="Brand" class="control-label">Brand</label>
+                <InputText id="Brand" class="form-control" @bind-Value="@obj.Brand" />
+                <ValidationMessage For="@(() => obj.Brand)" />
+            </div>
+
+            <div class="form-group">
+                <label for="Ram" class="control-label">Memory</label>
+                <InputNumber id="Ram" class="form-control" @bind-Value="@obj.Memory" />
+                <ValidationMessage For="@(() => obj.Ram)" />
+            </div>
+
+            <div class="form-group">
+                <label for="Ram" class="control-label">RAM</label>
+                <InputNumber id="Ram" class="form-control" @bind-Value="@obj.Ram" />
+                <ValidationMessage For="@(() => obj.Ram)" />
+            </div>
+
+            <div class="form-group">
+                <label for="UsbPort" class="control-label">Usb ports</label>
+                <InputNumber id="UsbPort" class="form-control" @bind-Value="@obj.UsbPort" />
+                <ValidationMessage For="@(() => obj.UsbPort)" />
             </div>
             <div class="form-group">
-                <label for="Name" class="control-label">Name</label>
-                <InputText id="Name" class="form-control" @bind-Value="@obj.Name" />
-                <ValidationMessage For="@(() => obj.Name)" />
+                <label for="RamSlot" class="control-label">Ram Slots</label>
+                <InputNumber id="RamSlot" class="form-control" @bind-Value="@obj.RamSlot" />
+                <ValidationMessage For="@(() => obj.RamSlot)" />
             </div>
+
             <div class="form-group">
-                <label for="TradingName" class="control-label">Trading Name</label>
-                <InputText id="TradingName" class="form-control" @bind-Value="@obj.TradingName" />
-                <ValidationMessage For="@(() => obj.TradingName)" />
+                <label for="Quantity" class="control-label">Quanty</label>
+                <InputNumber id="Quantity" class="form-control" @bind-Value="@obj.Quantity" />
+                <ValidationMessage For="@(() => obj.Quantity)" />
             </div>
+
             <div class="form-group">
-                <label for="Address" class="control-label">Address</label>
-                <InputText id="Address" class="form-control" @bind-Value="@obj.Address" />
-                <ValidationMessage For="@(() => obj.Address)" />
+                <label for="Price" class="control-label">Price</label>
+                <InputNumber id="Price" class="form-control" @bind-Value="@obj.Price" />
+                <ValidationMessage For="@(() => obj.Price)" />
             </div>
         </div>
 
@@ -39,38 +60,32 @@
     </div>
 </EditForm>
 
-@code {
-    [Parameter]
-    public string CurrentID { get; set; }
-    [Parameter]
-    public string Referrer { get; set; }
-    public string ButtonName { get; set; }
-    Business obj = new Business();
+@code { [Parameter]
+            public string CurrentID { get; set; }
+            public string ButtonName { get; set; }
+            Computer obj = new Computer();
 
-    protected override async Task OnInitializedAsync()
-    {
-        try
-        {
-            ButtonName = "Update";
-            obj = await Task.Run(() => MyService.GetById(Guid.Parse(CurrentID)));
+            protected override async Task OnInitializedAsync()
+            {
+                try
+                {
+                    ButtonName = "Update";
+                    obj = await Task.Run(() => MyService.GetById(Guid.Parse(CurrentID)));
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex.Message);
+                }
+            }
 
-            if (Referrer == "BusinessDisplay")
-                Referrer += "/" + CurrentID;
-        }
-        catch (Exception ex)
-        {
-            Logger.LogInformation(ex.Message);
-        }
+            protected void Update()
+            {
+                MyService.Update(obj);
+                NavigationManager.NavigateTo("Computers");
+            }
+
+            protected void Cancel()
+            {
+                NavigationManager.NavigateTo("Computers");
+            }
     }
-
-    protected void Update()
-    {
-        MyService.Update(obj);
-        NavigationManager.NavigateTo(Referrer);
-    }
-
-    protected void Cancel()
-    {
-        NavigationManager.NavigateTo(Referrer);
-    }
-}

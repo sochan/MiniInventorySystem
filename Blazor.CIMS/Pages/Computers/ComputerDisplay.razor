@@ -1,0 +1,18 @@
+﻿@page "/ComputerDisplay/{CurrentID}"
+@inject IComputerService MyService
+
+<h2>Computer</h2>
+<hr />
+
+<ComputerCom Computer="@obj"></ComputerCom>
+
+@code {
+    [Parameter]
+    public string CurrentID { get; set; }
+    Computer obj = new Computer();
+
+    protected override async Task OnInitializedAsync()
+    {
+        obj = await Task.Run(() => MyService.GetById(Guid.Parse(CurrentID)));
+    }
+}
