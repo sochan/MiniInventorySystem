@@ -9,5 +9,13 @@
     <Folder Include="Data\Services\" />
     <Folder Include="Data\Interfaces\" />
     <Folder Include="Data\Entities\" />
+    <Folder Include="Common\" />
+    <Folder Include="Helpers\" />
+    <Folder Include="ViewModel\" />
+    <Folder Include="Pages\Computers\" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="5.0.2" />
+    <PackageReference Include="FluentValidation" Version="9.4.0" />
   </ItemGroup>
 </Project>

@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.EntityFrameworkCore;
 using Blazor.CIMS.Data;
 
 namespace Blazor.CIMS
@@ -20,8 +21,11 @@ namespace Blazor.CIMS
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddDbContext<MyDbContext>(opt =>
+            opt.UseInMemoryDatabase("CimsList"));
             services.AddRazorPages();
             services.AddServerSideBlazor();
+            services.AddScoped<IComputerService, ComputerService>();
             //services.AddSingleton<WeatherForecastService>();
         }
 
