@@ -7,7 +7,7 @@
 <hr />
 
 <EditForm Model="@obj" OnValidSubmit="Create">
-    
+
     <div class="row">
         <div class="col-md-8">
             <div class="form-group">
@@ -18,14 +18,37 @@
 
             <div class="form-group">
                 <label for="Ram" class="control-label">Memory</label>
-                <InputNumber id="Ram" class="form-control" @bind-Value="@obj.Memory" />
-                <ValidationMessage For="@(() => obj.Ram)" />
+                <select class="custom-select" @onchange="OnMemoryChange" title="Memory">
+                    <option value="NON" selected disabled="disabled">(Choose a Memory)</option>
+                    @foreach (var item in LIST_MEMORY)
+                    {
+                        if (item == obj.Memory)
+                        {
+                            <option selected="selected" value="@item"> @item</option>
+                        }
+                        else
+                        {
+                            <option value="@item"> @item</option>
+                        }
+                    }
+                </select>
             </div>
 
             <div class="form-group">
                 <label for="Ram" class="control-label">RAM</label>
-                <InputNumber id="Ram" class="form-control" @bind-Value="@obj.Ram" />
-                <ValidationMessage For="@(() => obj.Ram)" />
+                <select class="custom-select" @onchange="OnRamChange" title="RAM">
+                    <option value="NON" selected disabled="disabled">(Choose a RAM)</option>
+                    @foreach (var item in LIST_RAM)
+                    {
+                        if (item == obj.Ram)
+                        {
+    <option selected="selected" value="@item"> @item</option> }
+                        else
+                        {
+    <option value="@item"> @item</option>}
+
+                    }
+                </select>
             </div>
 
             <div class="form-group">
@@ -34,13 +57,13 @@
                 <ValidationMessage For="@(() => obj.UsbPort)" />
             </div>
             <div class="form-group">
-                <label for="RamSlot" class="control-label">Ram Slots</label>
+                <label for="RamSlot" class="control-label">Ram slots</label>
                 <InputNumber id="RamSlot" class="form-control" @bind-Value="@obj.RamSlot" />
                 <ValidationMessage For="@(() => obj.RamSlot)" />
             </div>
 
             <div class="form-group">
-                <label for="Quantity" class="control-label">Quanty</label>
+                <label for="Quantity" class="control-label">Quantity</label>
                 <InputNumber id="Quantity" class="form-control" @bind-Value="@obj.Quantity" />
                 <ValidationMessage For="@(() => obj.Quantity)" />
             </div>
@@ -60,10 +83,9 @@
 
                 @if (showError)
                 {
-                <div class="text-danger validation-summary-errors">
-                    @PLEASE_CHOOSE_DEVICE_TYPE
-                </div>
-                }
+<div class="text-danger validation-summary-errors">
+    @PLEASE_CHOOSE_DEVICE_TYPE
+</div>                }
             </div>
 
         </div>
@@ -81,11 +103,13 @@
 
 @code {
     Computer obj = new Computer();
+
     IList<DeviceType> listTypes = Util.ListTypes();
     protected List<string> SelectedIds = new List<string>();
-
-
     bool showError = false;
+
+    string SelectedRam = "";
+    string SelectedMemory = "";
 
     protected async Task Create()
     {
@@ -101,6 +125,8 @@
             obj.Types = types;
             obj.IsActive = true;
             obj.IsDeleted = false;
+            obj.Ram = SelectedRam;
+            obj.Memory = SelectedMemory;
             await Task.Run(() => MyService.Create(obj));
 
             Console.WriteLine(obj.Id);
@@ -116,5 +142,19 @@
     protected void Cancel()
     {
         NavigationManager.NavigateTo("Computers");
+    }
+
+    protected void OnRamChange(ChangeEventArgs e)
+    {
+        SelectedRam = e.Value.ToString();
+        StateHasChanged();
+
+    }
+
+    protected void OnMemoryChange(ChangeEventArgs e)
+    {
+        SelectedMemory = e.Value.ToString();
+        StateHasChanged();
+
     }
 }

@@ -1,4 +1,4 @@
-﻿@page "/EditComputer/{CurrentID}/{Referrer}"
+﻿@page "/EditComputer/{CurrentID}"
 @inject IComputerService MyService
 @inject IJSRuntime JsRuntime
 
@@ -15,14 +15,37 @@
 
             <div class="form-group">
                 <label for="Ram" class="control-label">Memory</label>
-                <InputNumber id="Ram" class="form-control" @bind-Value="@obj.Memory" />
-                <ValidationMessage For="@(() => obj.Ram)" />
+                <select class="custom-select" @onchange="OnMemoryChange" title="Memory">
+                    <option value="NON" selected disabled="disabled">(Choose a Memory)</option>
+                    @foreach (var item in LIST_MEMORY)
+                    {
+                        if (item == obj.Memory)
+                        {
+        <option selected="selected" value="@item"> @item</option>
+ }
+    else
+    {
+        <option value="@item"> @item</option>
+}
+}
+                </select>
             </div>
 
             <div class="form-group">
                 <label for="Ram" class="control-label">RAM</label>
-                <InputNumber id="Ram" class="form-control" @bind-Value="@obj.Ram" />
-                <ValidationMessage For="@(() => obj.Ram)" />
+                <select class="custom-select" @onchange="OnRamChange" title="RAM">
+                    <option value="NON" selected disabled="disabled">(Choose a RAM)</option>
+                    @foreach (var item in LIST_RAM)
+                    {
+                        if (item == obj.Ram)
+                        {
+        <option selected="selected" value="@item"> @item</option> }
+                            else
+                            {
+        <option value="@item"> @item</option>}
+
+                        }
+                </select>
             </div>
 
             <div class="form-group">
@@ -47,6 +70,20 @@
                 <InputNumber id="Price" class="form-control" @bind-Value="@obj.Price" />
                 <ValidationMessage For="@(() => obj.Price)" />
             </div>
+
+            <div class="form-group">
+                <label for="Roles" class="control-label">Device types</label>
+                <CheckBoxList Data="@listTypes"
+                              TextField="@((item) => item.Name)"
+                              ValueField="@((item) => item.Value)"
+                              SelectedValues="@SelectedIds" />
+
+                @if (showError)
+                {
+        <div class="text-danger validation-summary-errors">
+            @PLEASE_CHOOSE_DEVICE_TYPE
+        </div>          }
+            </div>
         </div>
 
     </div>
@@ -60,32 +97,70 @@
     </div>
 </EditForm>
 
-@code { [Parameter]
-            public string CurrentID { get; set; }
-            public string ButtonName { get; set; }
-            Computer obj = new Computer();
+@code {
+    [Parameter]
+    public string CurrentID { get; set; }
 
-            protected override async Task OnInitializedAsync()
-            {
-                try
-                {
-                    ButtonName = "Update";
-                    obj = await Task.Run(() => MyService.GetById(Guid.Parse(CurrentID)));
-                }
-                catch (Exception ex)
-                {
-                    Console.WriteLine(ex.Message);
-                }
-            }
+    public string ButtonName { get; set; }
+    Computer obj = new Computer();
 
-            protected void Update()
-            {
-                MyService.Update(obj);
-                NavigationManager.NavigateTo("Computers");
-            }
+    string SelectedRam = "";
+    string SelectedMemory = "";
 
-            protected void Cancel()
-            {
-                NavigationManager.NavigateTo("Computers");
-            }
+    IList<DeviceType> listTypes = Util.ListTypes();
+    protected List<string> SelectedIds = new List<string>();
+    bool showError = false;
+
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+
+            ButtonName = "Update";
+            obj = await Task.Run(() => MyService.GetById(Guid.Parse(CurrentID)));
+            SelectedMemory = obj.Memory;
+            SelectedRam = obj.Ram;
+            SelectedIds = obj.Types.ListStrTypes();
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine(ex.Message);
+        }
     }
+
+    protected void Update()
+    {
+        var types = SelectedIds.Sum();
+
+        if (types <= 0)
+        {
+            showError = true;
+            return;
+        }
+        obj.Types = types;
+
+        obj.Ram = SelectedRam;
+        obj.Memory = SelectedMemory;
+        MyService.Update(obj);
+        NavigationManager.NavigateTo("Computers");
+    }
+
+    protected void Cancel()
+    {
+        NavigationManager.NavigateTo("Computers");
+    }
+
+    protected void OnRamChange(ChangeEventArgs e)
+    {
+        SelectedRam = e.Value.ToString();
+        StateHasChanged();
+
+    }
+
+    protected void OnMemoryChange(ChangeEventArgs e)
+    {
+        SelectedMemory = e.Value.ToString();
+        StateHasChanged();
+
+    }
+}

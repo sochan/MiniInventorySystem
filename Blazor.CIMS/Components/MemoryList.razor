@@ -1,0 +1,34 @@
+﻿<SelectList MyList="@List" Title="@Title" Name="@Name" SelectedValue="@Value"></SelectList>
+
+@code {
+    [Parameter]
+    public int StartGb { get; set; }
+
+    [Parameter]
+    public string Value { get; set; }
+
+    [Parameter]
+    public string Title { get; set; }
+
+    [Parameter]
+    public string Name { get; set; }
+
+
+    [Parameter]
+    public int Count { get; set; }
+
+    public List<ValueText> List = new List<ValueText>();
+
+    protected override async Task OnInitializedAsync()
+    {
+        for(var i=0; i < Count; i++)
+        {
+            await Task.Run(() =>
+            {
+                var val = StartGb * Math.Pow(2, i);
+                var obj = new ValueText { Value = val.ToString(), Text = val.ToString() + "GB" };
+                List.Add(obj);
+            });
+        }
+    }
+}

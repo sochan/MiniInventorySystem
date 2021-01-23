@@ -29,7 +29,7 @@
                     <th>Types</th>
                     <th>Quantity</th>
                     <th>Price</th>
-                    <th>Action</th>
+                    <th></th>
                 </tr>
             </thead>
             <tbody>
@@ -45,11 +45,8 @@
                     <td>@obj.Quantity</td>
                     <td>@obj.Price.CurrencyDisplay()</td>
                     <td>
-                        <a class="btn btn-warning" href="EditBusiness/@obj.Id/Businesses">
+                        <a class="btn btn-warning" href="EditComputer/@obj.Id">
                             Edit
-                        </a>
-                        <a class="btn btn-danger" href="DeleteBusiness/@obj.Id">
-                            Delete
                         </a>
                     </td>
                 </tr>

@@ -1,0 +1,39 @@
+﻿<select class="custom-select" @onchange="OnListChange" title="@Title">
+    <option value="NON" selected disabled="disabled">(Choose a @Name)</option>
+    @foreach (var item in MyList)
+    {
+        if (item.Value == Value)
+        {
+            <option selected="selected" value="@item.Value"> @item.Text</option>
+        } else
+        {
+            <option value="@item.Value"> @item.Text</option>
+        }
+
+    }
+</select>
+
+@code {
+    [Parameter]
+    public IEnumerable<ValueText> MyList { get; set; }
+
+    [Parameter]
+    public string Value { get; set; }
+
+    [Parameter]
+    public string SelectedText { get; set; }
+
+    [Parameter]
+    public string Title { get; set; }
+
+    [Parameter]
+    public string Name { get; set; }
+
+    protected void OnListChange(ChangeEventArgs e)
+    {
+        Value = e.Value.ToString();
+        SelectedText = MyList.First(c => c.Value == Value).Text;
+        StateHasChanged();
+
+    }
+}
