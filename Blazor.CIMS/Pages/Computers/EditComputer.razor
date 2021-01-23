@@ -1,0 +1,76 @@
+﻿@page "/EditComputer/{CurrentID}/{Referrer}"
+@inject IJSRuntime JsRuntime
+
+<h2>Update Business</h2>
+<hr />
+<EditForm Model="@obj" OnValidSubmit="Update">
+    <div class="row">
+        <div class="col-md-8">
+            <div class="form-group">
+                <label for="Abn" class="control-label">ABN</label>
+                <InputText id="Abn" class="form-control" @bind-Value="@obj.Abn" />
+                <ValidationMessage For="@(() => obj.Abn)" />
+            </div>
+            <div class="form-group">
+                <label for="Name" class="control-label">Name</label>
+                <InputText id="Name" class="form-control" @bind-Value="@obj.Name" />
+                <ValidationMessage For="@(() => obj.Name)" />
+            </div>
+            <div class="form-group">
+                <label for="TradingName" class="control-label">Trading Name</label>
+                <InputText id="TradingName" class="form-control" @bind-Value="@obj.TradingName" />
+                <ValidationMessage For="@(() => obj.TradingName)" />
+            </div>
+            <div class="form-group">
+                <label for="Address" class="control-label">Address</label>
+                <InputText id="Address" class="form-control" @bind-Value="@obj.Address" />
+                <ValidationMessage For="@(() => obj.Address)" />
+            </div>
+        </div>
+
+    </div>
+    <div class="row">
+        <div class="col-md-4">
+            <div class="form-group">
+                <button type="submit" class="btn btn-primary">@ButtonName</button>
+                <button type="button" class="btn btn-secondary" @onclick="@(() => Cancel())">Cancel</button>
+            </div>
+        </div>
+    </div>
+</EditForm>
+
+@code {
+    [Parameter]
+    public string CurrentID { get; set; }
+    [Parameter]
+    public string Referrer { get; set; }
+    public string ButtonName { get; set; }
+    Business obj = new Business();
+
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            ButtonName = "Update";
+            obj = await Task.Run(() => MyService.GetById(Guid.Parse(CurrentID)));
+
+            if (Referrer == "BusinessDisplay")
+                Referrer += "/" + CurrentID;
+        }
+        catch (Exception ex)
+        {
+            Logger.LogInformation(ex.Message);
+        }
+    }
+
+    protected void Update()
+    {
+        MyService.Update(obj);
+        NavigationManager.NavigateTo(Referrer);
+    }
+
+    protected void Cancel()
+    {
+        NavigationManager.NavigateTo(Referrer);
+    }
+}

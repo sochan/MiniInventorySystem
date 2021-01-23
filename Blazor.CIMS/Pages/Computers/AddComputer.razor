@@ -1,0 +1,71 @@
+﻿@page "/AddComputer"
+@inject IComputerService MyService
+@inject IJSRuntime JsRuntime
+
+
+<h2>Add Business</h2>
+<hr />
+
+<EditForm Model="@obj" OnValidSubmit="Create">
+    <div class="row">
+        <div class="col-md-8">
+            <div class="form-group">
+                <label for="Brand" class="control-label">Brand</label>
+                <InputText id="Brand" class="form-control" @bind-Value="@obj.Brand" />
+                <ValidationMessage For="@(() => obj.Brand)" />
+            </div>
+            <div class="form-group">
+                <label for="Name" class="control-label">Name</label>
+                <InputText id="Name" class="form-control" @bind-Value="@obj.Name" />
+                <ValidationMessage For="@(() => obj.Name)" />
+            </div>
+            <div class="form-group">
+                <label for="TradingName" class="control-label">Trading Name</label>
+                <InputText id="TradingName" class="form-control" @bind-Value="@obj.TradingName" />
+                <ValidationMessage For="@(() => obj.TradingName)" />
+            </div>
+            <div class="form-group">
+                <label for="Address" class="control-label">Address</label>
+                <InputText id="Address" class="form-control" @bind-Value="@obj.Address" />
+                <ValidationMessage For="@(() => obj.Address)" />
+            </div>
+        </div>
+
+    </div>
+    <div class="row">
+        <div class="col-md-4">
+            <div class="form-group">
+                <button type="submit" class="btn btn-primary">Save</button>
+                <button type="button" class="btn btn-secondary" @onclick="@(() => Cancel())">Cancel</button>
+            </div>
+        </div>
+    </div>
+</EditForm>
+
+@code {
+    Computer obj = new Computer();
+
+    protected void Create()
+    {
+        
+        try
+        {
+            MyService.Create(obj);
+            NavigationManager.NavigateTo("Computers");
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e.StackTrace);
+        }
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        
+    }
+
+    protected void Cancel()
+    {
+        NavigationManager.NavigateTo("Computers");
+    }
+}
