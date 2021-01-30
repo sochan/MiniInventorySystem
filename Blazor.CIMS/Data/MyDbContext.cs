@@ -8,7 +8,6 @@ namespace Blazor.CIMS.Data
             : base(options)
         {
         }
-
         public DbSet<Computer> Computers { get; set; }
         public DbSet<Tablet> Tablets { get; set; }
     }
